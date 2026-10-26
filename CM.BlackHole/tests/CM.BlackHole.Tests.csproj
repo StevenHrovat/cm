@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Public TPM 2.0 structures produced by a real TPM implementation (swtpm/libtpms); tools/tpm-fixtures/make-fixtures.sh rebuilds them. -->
+    <None Include="Doppler/Tpm/fixtures/*" CopyToOutputDirectory="PreserveNewest" Link="fixtures/%(Filename)%(Extension)" />
+    <!-- The kept fuzz corpus of Doppler (DMP chapter 06, level 3), replayed by DopplerFuzzTests in tools/verify. -->
+    <None Update="Doppler/Supernova/corpus/**/*.bin" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../src/CM.BlackHole.csproj" />
+  </ItemGroup>
+</Project>

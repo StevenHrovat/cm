@@ -1,0 +1,7 @@
+# Information warehouses (constitution C19, rule DMP-016). name<TAB>node<TAB>serves IM (yes|no).
+# node is the tree folder here, an outside reference (repository#number or repository:path) for a warehouse that lives elsewhere, or '-' while it is not built.
+# A warehouse serves an IM request only when it checks both signatures itself: the security chain (Doppler: the request is secure) and the
+# operational chain (the operations master: the request is meant to be served), each from the master or from an authority the other chain co-signed.
+# Before a warehouse serves IM its line says 'yes' and its node has tests/Im/DualSignatureTests.cs.
+Sagittarius	-	no
+Crater	-	no

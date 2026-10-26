@@ -1,0 +1,51 @@
+<Solution>
+  <Folder Name="/cm.io/">
+    <Project Path="cm.io/src/cm.io.csproj" />
+    <Project Path="cm.io/tests/cm.io.Tests.csproj" />
+  </Folder>
+  <Folder Name="/cm.os/">
+    <Project Path="cm.os/src/cm.os.csproj" />
+    <Project Path="cm.os/tests/cm.os.Tests.csproj" />
+  </Folder>
+  <Folder Name="/CM.MilkyWay/">
+    <Project Path="CM.MilkyWay/src/CM.MilkyWay.csproj" />
+    <Project Path="CM.MilkyWay/tests/CM.MilkyWay.Tests.csproj" />
+  </Folder>
+  <Folder Name="/CM.BlackHole/">
+    <Project Path="CM.BlackHole/src/CM.BlackHole.csproj" />
+    <Project Path="CM.BlackHole/agent/CM.BlackHole.Agent.csproj" />
+    <Project Path="CM.BlackHole/tests/CM.BlackHole.Tests.csproj" />
+  </Folder>
+  <Folder Name="/CM.Pictor/">
+    <Project Path="CM.Pictor/src/CM.Pictor.csproj" />
+    <Project Path="CM.Pictor/tests/CM.Pictor.Tests.csproj" />
+  </Folder>
+  <Folder Name="/CM.Observatory/">
+    <Project Path="CM.Observatory/src/CM.Observatory.csproj" />
+    <Project Path="CM.Observatory/tests/CM.Observatory.Tests.csproj" />
+  </Folder>
+  <Folder Name="/tools/dmp/">
+    <Project Path="tools/dmp/src/Cm.Dmp.Check.csproj" />
+    <Project Path="tools/dmp/tests/Cm.Dmp.Check.Tests.csproj" />
+  </Folder>
+  <Folder Name="/tools/tpm-fixtures/">
+    <Project Path="tools/tpm-fixtures/src/Cm.TpmFixtures.csproj" />
+  </Folder>
+  <Folder Name="/tools/gravity/">
+    <Project Path="tools/gravity/src/Cm.Gravity.csproj" />
+    <Project Path="tools/gravity/tests/Cm.Gravity.Tests.csproj" />
+  </Folder>
+  <Folder Name="/tools/fuzz/">
+    <Project Path="tools/fuzz/src/Cm.Fuzz.csproj" />
+  </Folder>
+  <Folder Name="/tools/doppler-agent/">
+    <Project Path="tools/doppler-agent/testhost/Cm.DopplerAgent.TestHost.csproj" />
+  </Folder>
+  <Folder Name="/tools/sandbox-pair/">
+    <Project Path="tools/sandbox-pair/tests/Cm.SandboxPair.Tests.csproj" />
+  </Folder>
+  <Folder Name="/vendor/im/">
+    <Project Path="vendor/im/src/Im/Im.csproj" />
+    <Project Path="vendor/im/tests/Im.Tests.csproj" />
+  </Folder>
+</Solution>

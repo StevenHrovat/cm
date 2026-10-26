@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="../../cm.os/src/cm.os.csproj" />
+  </ItemGroup>
+</Project>

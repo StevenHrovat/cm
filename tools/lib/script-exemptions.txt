@@ -1,0 +1,4 @@
+# Scripts under tools/ that do not call the shared guard (DMP-011, docs/process/owner-scripts.md "Exemptions"). path<TAB>reason.
+# The list can only go down: fix a script, then delete its line; never add a line. DMP-011 fails on a stale line and on a larger list.
+tools/doppler-agent/install.ps1	runs on every enrolled device as SYSTEM from the unpacked Intune package: there is no checkout and no single expected host
+tools/doppler-agent/uninstall.ps1	runs on every enrolled device as SYSTEM from the unpacked Intune package: there is no checkout and no single expected host

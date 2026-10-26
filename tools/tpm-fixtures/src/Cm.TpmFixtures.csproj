@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Helper of tools/tpm-fixtures/make-fixtures.sh: seals a credential with Doppler's TpmCredential.Make for swtpm to open. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../../CM.BlackHole/src/CM.BlackHole.csproj" />
+  </ItemGroup>
+</Project>

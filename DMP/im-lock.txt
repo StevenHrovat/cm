@@ -1,0 +1,4 @@
+# Locked IM versions (constitution C18, rule DMP-015). version<TAB>locked by (the owner's words: where, when, the first productive system)<TAB>corpus folder<TAB>sha256 of the corpus.
+# A version is locked when the first system that speaks it enters production. From then on every later IM version accepts its messages,
+# and the corpus (messages of that version, each with the anchors and the verify time it was captured with) never changes.
+# The sha256 is over the corpus files in ordinal path order, each as "<relative path>\n<bytes>". Nothing is locked yet: IM version 0 is sandbox only.

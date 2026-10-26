@@ -1,0 +1,94 @@
+[
+ {
+  "id": "M1",
+  "says": "rule 9 skipped: an unenrolled, revoked or mismatched subject passes",
+  "breaks": "C2.L1",
+  "edits": [
+   {
+    "find": "    case ENotEnrolled{}:\n      Some{NotEnrolled{}}\n    case ERevoked{}:\n      Some{Revoked{}}\n    case EMismatch{}:\n      Some{EnrolmentMismatch{}}",
+    "replace": "    case ENotEnrolled{}:\n      r10(session, msg_sig, sent, kind, perms, payload, now, skew)\n    case ERevoked{}:\n      r10(session, msg_sig, sent, kind, perms, payload, now, skew)\n    case EMismatch{}:\n      r10(session, msg_sig, sent, kind, perms, payload, now, skew)"
+   }
+  ],
+  "witness": "def main() -> Bool:\n  M.is_verified(M.verify(M.Facts{False{}, M.POk{}, M.POk{}, M.COk{}, True{}, 10n, 100n, M.ERevoked{}, M.SNone{}, True{}, 50n, M.Heartbeat{}, [M.HeartbeatSend{}], M.POk{}, 1n, 2n}, 50n, M.Cfg{1000n, 5n, 10n}, []))"
+ },
+ {
+  "id": "M2",
+  "says": "skew on expiry: a token is accepted up to the clock skew after it expired",
+  "breaks": "C2.L1",
+  "edits": [
+   {
+    "find": "r8(Nat.is_le(exp, now), ",
+    "replace": "r8(Nat.is_le(Nat.add(exp, skew), now), "
+   }
+  ],
+  "witness": "def main() -> Bool:\n  M.is_verified(M.verify(M.Facts{False{}, M.POk{}, M.POk{}, M.COk{}, True{}, 10n, 100n, M.EOk{}, M.SNone{}, True{}, 102n, M.Heartbeat{}, [M.HeartbeatSend{}], M.POk{}, 1n, 2n}, 102n, M.Cfg{1000n, 5n, 10n}, []))"
+ },
+ {
+  "id": "M3",
+  "says": "message signature checked after the replay memory: a forged message is remembered, so the genuine one with its id is later refused as Replayed",
+  "breaks": "C2.L2",
+  "edits": [
+   {
+    "find": "    case True{}:\n      r12(stale(sent, now, skew), kind, perms, payload)\n    case False{}:\n      Some{BadMessageSignature{}}",
+    "replace": "    case True{}:\n      r12(stale(sent, now, skew), kind, perms, payload)\n    case False{}:\n      r12(stale(sent, now, skew), kind, perms, payload)"
+   },
+   {
+    "find": "def verify(f: Facts",
+    "replace": "def sig_last(ok: Bool, o: Out) -> Out:\n  match ok:\n    case True{}:\n      o\n    case False{}:\n      Refused{BadMessageSignature{}, memory(o)}\n\ndef verify(f: Facts"
+   },
+   {
+    "find": "enrol, session, msg_sig, +sent, kind, perms, payload, +key, +id}:",
+    "replace": "enrol, session, +msg_sig, +sent, kind, perms, payload, +key, +id}:"
+   },
+   {
+    "find": "          decide(r1(",
+    "replace": "          sig_last(msg_sig, decide(r1("
+   },
+   {
+    "find": "now, max_life, skew), mem, key, id, sent, now, skew, cap)\n",
+    "replace": "now, max_life, skew), mem, key, id, sent, now, skew, cap))\n"
+   }
+  ],
+  "witness": "def main() -> Bool:\n  Nat.is_eq(List.length(&2, M.Entry, M.memory(M.verify(M.Facts{False{}, M.POk{}, M.POk{}, M.COk{}, True{}, 10n, 100n, M.EOk{}, M.SNone{}, False{}, 50n, M.Heartbeat{}, [M.HeartbeatSend{}], M.POk{}, 1n, 2n}, 50n, M.Cfg{1000n, 5n, 10n}, []))), 1n)"
+ },
+ {
+  "id": "M4",
+  "says": "a full replay memory forgets everything instead of refusing",
+  "breaks": "C2.L3b",
+  "edits": [
+   {
+    "find": "    case True{}:\n      Refused{ReplayCacheFull{}, m}",
+    "replace": "    case True{}:\n      Verified{Entry{key, id, until} <> Nil{}}"
+   }
+  ],
+  "witness": "def main() -> Bool:\n  M.is_verified(M.verify(M.Facts{False{}, M.POk{}, M.POk{}, M.COk{}, True{}, 10n, 100n, M.EOk{}, M.SNone{}, True{}, 50n, M.Heartbeat{}, [M.HeartbeatSend{}], M.POk{}, 1n, 2n}, 50n, M.Cfg{1000n, 5n, 1n}, [M.Entry{9n, 9n, 60n}]))"
+ },
+ {
+  "id": "M5",
+  "says": "the permission is looked up for the wrong kind: a heartbeat passes with session.open",
+  "breaks": "C2.L1",
+  "edits": [
+   {
+    "find": "r14(has(perms, q), payload)",
+    "replace": "r14(has(perms, SessionOpen{}), payload)"
+   }
+  ],
+  "witness": "def main() -> Bool:\n  M.is_verified(M.verify(M.Facts{False{}, M.POk{}, M.POk{}, M.COk{}, True{}, 10n, 100n, M.EOk{}, M.SNone{}, True{}, 50n, M.Heartbeat{}, [M.SessionOpen{}], M.POk{}, 1n, 2n}, 50n, M.Cfg{1000n, 5n, 10n}, []))"
+ },
+ {
+  "id": "M6",
+  "says": "rules 11 and 12 swapped: a stale message with a bad signature is refused as Stale",
+  "breaks": "C2.L2",
+  "edits": [
+   {
+    "find": "      r12(stale(sent, now, skew), kind, perms, payload)\n    case False{}:\n      Some{BadMessageSignature{}}",
+    "replace": "      r12(stale(sent, now, skew), kind, perms, payload)\n    case False{}:\n      stale_first(stale(sent, now, skew))"
+   },
+   {
+    "find": "def r11(",
+    "replace": "def stale_first(late: Bool) -> Maybe<&2, Refusal>:\n  match late:\n    case True{}:\n      Some{Stale{}}\n    case False{}:\n      Some{BadMessageSignature{}}\n\ndef r11("
+   }
+  ],
+  "witness": "def is_stale(m: Maybe<&2, M.Refusal>) -> Bool:\n  match m:\n    case Some{w}:\n      match w:\n        case M.Stale{}:\n          True{}\n        case _:\n          False{}\n    case None{}:\n      False{}\n\ndef main() -> Bool:\n  is_stale(M.verdict(M.verify(M.Facts{False{}, M.POk{}, M.POk{}, M.COk{}, True{}, 10n, 100n, M.EOk{}, M.SNone{}, False{}, 20n, M.Heartbeat{}, [M.HeartbeatSend{}], M.POk{}, 1n, 2n}, 50n, M.Cfg{1000n, 5n, 10n}, [])))"
+ }
+]

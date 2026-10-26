@@ -1,0 +1,32 @@
+# The required check on main (DMP chapter 10): build, test and the dmp group, through tools/verify.
+name: verify
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  verify:
+    name: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      # swtpm is the real TPM 2.0 implementation (libtpms) Doppler's TPM tests run against (CM.BlackHole/tests/Doppler/Tpm);
+      # CM_REQUIRE_SWTPM makes those tests fail instead of skip if it is missing.
+      - name: swtpm
+        run: sudo apt-get update -q && sudo apt-get install -y -q swtpm
+      # The base of a pull request, for the ratchets of DMP-020 (C25: the known gaps only shrink, a deploy workflow stays one).
+      # DMP-020 reads the exact base commit from the event (not a ref a step could move) and fails closed when it is missing.
+      - name: base for the DMP ratchets
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: git fetch --no-tags --depth=1 origin "$BASE_SHA"
+      - name: tools/verify
+        env:
+          CM_REQUIRE_SWTPM: "1"
+        run: tools/verify

@@ -1,0 +1,5 @@
+# Features that touch company data (constitution C16, rule DMP-013, templates/data-gate/README.md).
+# id<TAB>stage<TAB>paths (comma-separated prefixes)<TAB>handling document<TAB>GRB report     ('-' for a document that does not exist yet)
+# A feature outside this repository names its place as <repository>:<path> or <repository>#<pull request>.
+# stage: it = IT and trusted advisors; general = general testing. Moving a feature to general is a pull request that changes this one word and adds the pair.
+# No feature of this repository touches company data yet.

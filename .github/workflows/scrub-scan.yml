@@ -1,0 +1,15 @@
+name: scrub-scan
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: tools/scrub-scan.sh
+        env:
+          LC_ALL: C.UTF-8

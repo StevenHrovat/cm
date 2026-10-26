@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- The long fuzz run of Supernova (DMP chapter 06): runs ImFuzzer campaigns on the sandbox world and keeps new inputs in the corpus
+       that tools/verify replays (CM.MilkyWay/tests/Supernova/corpus). Run by hand or by a scheduled run; it touches no network. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../../CM.MilkyWay/src/CM.MilkyWay.csproj" />
+  </ItemGroup>
+</Project>

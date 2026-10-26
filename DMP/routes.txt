@@ -1,0 +1,5 @@
+# Administrator actions and their supported routes (constitution C25, checked by DMP-020).
+# One line per action: "action: cli", "action: console", "action: cli, console", or "action: gap - reason".
+# "cap = N" is the most known gaps allowed. C25: "the list of known gaps may only shrink", so lower the cap when a gap closes, never raise it.
+# The operations master keeps its audit vocabulary in step with this register (its own ratchet test).
+cap = 0
