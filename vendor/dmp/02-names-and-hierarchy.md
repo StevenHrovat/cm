@@ -18,7 +18,7 @@ The "May reference" column is a different structure, the dependency graph (what 
 
 | Folder | What it holds | May reference |
 |---|---|---|
-| `cm.io` | Bricks: each protocol or format once (`cm.io.sql`, `cm.io.ssh`, ...) | nothing else in CM |
+| `cm.io` | The library of all DMP-compliant ways to interact with CMOS infrastructure: every way information is ingested or output, each once (`cm.io.sql`, `cm.io.ssh`, ...) | nothing else in CM |
 | `cm.os` | Operating-system level and glue code, one level below CM | `cm.io` |
 | `CM.MilkyWay` | The universal I/O layer and internal proxy; speaks IM | `cm.io`, `cm.os` |
 | `CM.BlackHole` | The security suite (Event Horizon, CMB, Doppler, Supernova, GRB, Singularity) | `cm.io`, `cm.os` |
@@ -32,7 +32,8 @@ Each node is `<Folder>/src/<Folder>.csproj` with `<Folder>/tests/<Folder>.Tests.
 the place in the tree. A constellation never references another constellation; they meet through Milky Way. A folder at the
 root named like a node (`cm.` or `CM.` prefix) that `tree.txt` does not list is refused.
 
-Status: stable since DMP 0.1.0
+Status: stable since DMP 0.9.6
+Amended: the cm.io row, approved by the owner 2026-10-26 16:04Z (stable since DMP 0.1.0 before that).
 Owner: CM coordinator
 Enforced by: DMP-004, DMP-008
 
