@@ -174,6 +174,28 @@ Approved: by the owner 2026-10-26 14:01Z ("I like it, approved!").
 Owner: CM coordinator
 Enforced by: DMP-021
 
+## T38 · Every information layer has its own Duality
+
+Every information layer (C12) is a layer, so every act on its information needs its two halves (Axiom 1). For information the two halves
+are the two responsibilities for it: the **organisational** half, the part that answers for the information (what it is for, who may use
+it, what it may cost), and the **factual** half, the part that answers for its truth (the subject-matter expert). Neither half alone admits,
+changes or releases the information, and where they disagree the stricter answer stands.
+
+The two halves may be one part only when that part is itself part of a higher-order DoT. The layer then decides nothing on its own: the
+higher-order DoT gates every act on it, so each act still has two independent witnesses, one layer up (Axiom 1). At the top there is no
+higher-order DoT; there the owner stands for both halves only under G0, until the minting.
+
+The owner (2026-10-26): "The Subject matter expert system, so information layers themselves having a DoT existing of the organizational
+responsibility for that information and the factual responsibility for that information. Those two parts may only be the same part, if that
+part itself is part of a higher order DoT. Management and experts turned into an internally consistent extension."
+
+Derived from: the words (layer, halves, independent), Axiom 1, G0.
+
+Status: stable since DMP 0.9.5
+Approved: by the owner 2026-10-26 15:36Z ("Approved!").
+Owner: CM coordinator
+Enforced by: DMP-021
+
 ## T1 · Trust is bounded
 
 A part holds trust for named acts only, and never more than both witnesses granted: the acts it may do are the intersection of what each
@@ -693,19 +715,19 @@ Enforced by: none yet
 
 ## C6 · The gates and the authority grant
 
-The gates hold. What agents may do on their own authority and what needs the owner's own words is written in the grant below,
-word for word. The wording is protected: rule DMP-009 refuses a change to it. (The wording is the owner's; the two places where
-it names the owner and the IT mailbox read "the owner" and "the IT mailbox" here because this repository writes roles, not
-names.)
+The gates hold. What agents may do on their own authority and what needs the words of a layer's two halves is written in the grant below,
+word for word. The wording is protected: rule DMP-009 refuses a change to it.
 
 <!-- authority-grant:begin -->
-> Agents may build and deploy CMOS's own new estate on their own authority: new VMs on the cluster, the new CA, Milky Way, Doppler, test tenant objects and Sagittarius development data, using credentials held in the operations master, under plan, audit and four eyes where a second admin exists. The running company's systems still need the owner's own words per action until the owner declares advanced testing reached for that system: real users and groups in AD and Entra, production mail, the old CA, the financial production path, and anything irreversible outside CMOS's own estate, though the accounts of the owner and the IT mailbox are exempt and are allowable with express permission by the owner.
+> Agents may build, change and deploy CMOS's own estate on their own authority, using credentials held in the operations master, under plan, audit and four eyes where a second administrator exists. An act on a system or on information outside CMOS's own estate needs both halves of the layer it belongs to (T38), its organisational and its factual responsibility. Each half may declare advanced testing reached for its layer; until both have, every act there needs their words per act, and anything irreversible outside CMOS's own estate always does. Until the minting the owner's own words stand for both halves (G0).
 <!-- authority-grant:end -->
 
-Derived from: T1 (the rule is trust bounded, written for agents), Axiom 3 (the wording is tamper-evident), G0 (until the minting the owner's
-words are both halves; the exemptions are G0); which systems the grant names is configuration.
+Derived from: T1 (the rule is trust bounded, written for agents), T38 (every layer outside CMOS's own estate has its two halves), Axiom 3
+(the wording is tamper-evident), G0 (until the minting the owner's words are both halves); which layers exist and who holds their halves
+is configuration (T4).
 
-Status: stable since DMP 0.1.0
+Status: stable since DMP 0.9.5
+Amended: grant abstracted onto T38, approved by the owner 2026-10-26 15:36Z (stable since DMP 0.1.0 before that).
 Owner: CM coordinator
 Enforced by: DMP-009
 

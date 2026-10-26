@@ -161,7 +161,8 @@ A loose proposal from the owner (2026-10-25 06:34Z), written down so it can be t
 hand also needs the approval of the person CMOS judges most competent on its topic, the subject-matter expert (SME). The main
 administrator or the administrative team may override that; the rule is then only a **proposal** until the SME has weighed in.
 
-The owner's answers of 2026-10-25 06:44Z are folded in below; what is still open is marked.
+The owner's answers of 2026-10-25 06:44Z are folded in below; what is still open is marked. Since DMP 0.9.5 the constitution grounds it:
+the SME is the factual half of the topic's information layer and the responsible manager its organisational half (T38).
 
 1. **What counts.** A rule written by hand: a DMP section, a CMOS policy, a gate, an automation rule. Not counted: a rule that a tool derives from data, or a change of wording that leaves the rule as it was.
 2. **Who is the SME.** CMOS names one person per topic and shows why, in this order: (a) the **owner of the topic**; (b) if there is none, the person that the manager of the department most relevant to the topic assigns as most competent; (c) if that cannot be found, the C-suite. Anything unclear **rises up the escalation chain**: the person in charge, their manager, and so on up to the C-suite; for CMOS itself the holders of the **cold-start keys**. Open: how CMOS knows "owner of the topic" (owner roles in Tier 1, the operations master's data) and the department-to-topic table.
