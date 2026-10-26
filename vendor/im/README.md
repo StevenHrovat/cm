@@ -23,11 +23,25 @@ What Doppler does with it: issue a token per enrolled device with `ImTokenCodec.
 `im.heartbeat.send` in version 0; keep `IEnrolmentRegistry` true (subject, role, KeyId of the device key, revoked). Changing a field, a tag
 or the algorithm is a contract change (C4) and a new IM version.
 
+## The language
+
+IM is the language of acts: a sentence is a verb (read, write or execute) on a noun (an item of an information layer) with its adjectives
+(dry or apply; what a write expects to find), spoken with both witnesses' grants and signed so it proves itself. The grammar, its wire form
+and its laws: [docs/language.md](docs/language.md). The proof that every sentence of the closed grammar keeps every law, decided by Lean's
+kernel: [proof/](proof/) (`proof/tools/check.sh`). The C# of the sentence: `src/Im/Language`. What IM stands on, with thanks:
+[docs/acknowledgements.md](docs/acknowledgements.md); what the proof found: [docs/findings.md](docs/findings.md).
+
+IM holds DMP and Gravity in the versions it is intended for, byte for byte with a PIN ([vendor/](vendor/README.md), DMP 00 "The root
+chain"), and with them `vendor/dmp/SETUP.md`, the one setup file of the four root repositories: what to install, from where, with which
+hash. `tools/lean-install.sh` follows it.
+
 ## Build and test
 
 ```
+tools/verify             # the one gate: pins, the setup file, the scrub scan, build, tests, the proof; exit 0 or 1
 dotnet build Im.slnx
 dotnet test Im.slnx
+proof/tools/check.sh     # the proof alone (lean and lake on the PATH: tools/lean-install.sh)
 ```
 
 C# on .NET 10, no dependency beyond the base class library. Package versions live in `Directory.Packages.props` only.

@@ -20,7 +20,8 @@ if [ "${1:-}" != "" ] && [ -f "$1" ]; then mapfile -t extra < "$1"; patterns+=("
 allow='HMAC-SHA[0-9]+|SHA-[0-9]+|GRB-[0-9]{4}|"1\.3\.6\.1\.[0-9.]+"|generated once for CM'
 fail=0
 for p in "${patterns[@]}"; do
-  hits=$(git ls-files -z | grep -zv -e '^LICENSE$' -e '^tools/scrub-scan.sh$' | xargs -0 grep -nIE -- "$p" 2>/dev/null | grep -vE -- "^[^:]+:[0-9]+:.*($allow)" || true)
+  # A vendored root repository carries its own scrub-scan.sh whose pattern literals share the shapes scanned for here; the copy is checked by its own repository and by its PIN.
+  hits=$(git ls-files -z | grep -zv -e '^LICENSE$' -e '^tools/scrub-scan.sh$' -e '^vendor/[^/]*/tools/scrub-scan.sh$' -e '^vendor/[^/]*/LICENSE$' | xargs -0 grep -nIE -- "$p" 2>/dev/null | grep -vE -- "^[^:]+:[0-9]+:.*($allow)" || true)
   if [ -n "$hits" ]; then echo "== pattern: $p"; echo "$hits"; fail=1; fi
 done
 [ $fail -eq 0 ] && echo "scrub-scan: clean"

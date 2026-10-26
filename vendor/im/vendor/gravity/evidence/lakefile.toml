@@ -1,0 +1,6 @@
+name = "dmp"
+version = "0.9.6"
+defaultTargets = ["Dmp"]
+
+[[lean_lib]]
+name = "Dmp"

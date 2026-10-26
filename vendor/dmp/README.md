@@ -29,6 +29,10 @@ carries IM and checks every message, it does not define the language. DMP, Gravi
 The other chapters (03, 07 to 09, 12, 13, 15, 16) are written in the order of the owner's outline
 (wave 2 starts when wave 1 is stable) and are not in the tree until they exist. Their numbers are reserved.
 
+[SETUP.md](SETUP.md) is the one setup file of the four root repositories: every toolchain with its version, source and hash, every host a
+setup or a check reaches, the install steps, and `tools/check-setup.sh`, which fails a repository that needs something the file does not list.
+It is born here and travels down the root chain with the vendored copy of DMP, so all four show the same text.
+
 `VERSION` is the DMP version. It moves only with a stable promotion. The machine-readable registers the gate reads (`tree.txt`,
 `routes.txt`, `im-lock.txt` and the others) live in CM's `DMP/` folder next to the code they describe.
 

@@ -1,5 +1,5 @@
--- The evidence chain's framework: DMP 0.9.0's bounds and the theorems the gravitational wave test needs, in Lean 4 core (no Mathlib).
--- Written from the DMP sentences (DMP, 01-constitution.md), never from the intent chain. See README.md.
+-- The evidence chain's framework: the bounds of the vendored DMP (../vendor/dmp, pinned) and the theorems the gravitational wave test needs,
+-- in Lean 4 core (no Mathlib). Written from the DMP sentences (vendor/dmp/01-constitution.md), never from the intent chain. See README.md.
 import Dmp.Gate
 import Dmp.Record
 import Dmp.Ground
@@ -14,3 +14,9 @@ import Dmp.R1Lens
 import Dmp.R1Mass
 import Dmp.R1Tier
 import Dmp.R2Stable
+import Dmp.Layer
+import Dmp.Recipe
+import Dmp.Theory
+import Dmp.Complete
+import Dmp.Layouts
+import Dmp.Cmb
