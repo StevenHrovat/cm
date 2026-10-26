@@ -76,7 +76,7 @@ The laws, as Gravity states them (each one a law per section under "How a sectio
   flag or a caller's claim is not in `live`.
 - **K3, the record (Axiom 3).** `performed a t → ∃ r, recordOf r a ∧ writtenAt r = t`; a refusal leaves one too. No path performs an act
   whose record fails to write.
-- **K4, the direction (Axiom 4).** Under the system's own acts the potential (below) never rises: `ownAct t t' → Φ t' ≤ Φ t`. Only losses
+- **K4, the balance (Axiom 1; DMP 0.9.7 folded the old Axiom 4, the direction, into Axiom 1 · The Duality).** Under the system's own acts the potential (below) never rises: `ownAct t t' → Φ t' ≤ Φ t`. Only losses
   and ageing raise it.
 - **K0, the ground (G0, T-P).** `independent W1 W2 ↔ ground = minted`. On `pressed`, K1's independence is false by construction, so every
   law that rests on it is unprovable there and Gravity's verdict on the instance is **out of spec** (T-P, the owner 2026-10-26 02:21Z:

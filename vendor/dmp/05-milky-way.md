@@ -4,7 +4,9 @@ Milky Way is the one door into CMOS, out of it and between its parts (constituti
 message, and can simulate I/O so that everything, the cold start included, can be tested in a sandbox. This chapter holds what IM
 version 0 needs of Milky Way: the gate, the quiet answer, the verifier, the heartbeat board, the simulator, the settings and the
 contract with Doppler. The protocol bricks it proxies, the shield (classes, tokens on values, grants, the canary, recipient
-profiles) and the galaxy group are later sections. Every section is a draft.
+profiles) and the galaxy group are later sections. The shield is how Milky Way keeps constraint C3: every value that crosses a border carries
+its class and its identification axis, and a token at every border that is not an administrator (these two sentences stood in constitution
+C3 until DMP 0.9.7). Every section is a draft.
 
 Security context: this chapter is defensive security engineering under the charter in [CHARTER.md](CHARTER.md). It describes the company's own
 entrance, tested on synthetic data in the sandbox.
@@ -190,6 +192,45 @@ Milky Way and Doppler never reference each other (C1); they meet in `cm.os`:
   never a subject or a payload. It reports degraded while the replay memory refuses messages because it is full.
 
 Changing any of these is a contract change (constitution C4): at a stable promotion, in both lanes' pull requests.
+
+Status: draft
+
+## The information tiers and the layers
+
+How Milky Way keeps constraint C12 (position never grants, and routing reaches everything inside). These sentences stood in constitution C12
+until DMP 0.9.7; they are the construction, the constraint is in chapter 01.
+
+CMOS contains all the information inside its Event Horizon, and every piece of it is reached through one routing: tiers, routed by the
+Milky Way net (the MW net). What CMOS makes is its own; personal data it holds only on a grant (T27).
+
+- **Tier 1** is the information in the MW net itself. It is always consulted first.
+- **Tier 2** is information the MW net routes the asker to: a source in the VIBE net, outward in the order the VIBE field gives.
+- **Tier 3** is information outside the Event Horizon, reached only through an exit node, and only when no tier inside answers.
+
+**Information layers.** Information of one kind forms a layer: its own sub-VIBE net with its own configuration, overlaid on the one VIBE
+field and routed by a clustered MW net. The knowledge warehouse is the knowledge layer; the relational warehouse and the files warehouse are
+layers in the same way. Each layer reorganises by Lensing on its own: the field's pull computes the layout from the signed state, and both
+witnesses recompute it and sign. The set of layers is open: a new kind of information is a new layer that declares its kind, its sub-VIBE
+configuration and its route, and inherits the dual gate, the record and Lensing; no other part of CMOS changes for it. A layer may place work
+as well as information (a network layout, load balancing, placement in a cloud): it decides where, never who may.
+
+**Privacy** is a singularity of VIBE space: information there is admitted only for the class its grant names, and no routing pulls it out,
+not even the MW net, which holds no admission for it. Routing behaves exactly as if the singularity were empty, so neither an answer nor its
+absence reveals what a singularity holds; its record shows counts, never content. A part trusted for that class acts on it at the
+singularity itself, under the dual gate. **Credentials** are information like any other and route the same way; each sits in a singularity
+of its own kind, so routing reaches the point of use, never the secret. Each singularity is a cluster of at least three nodes (T3's floor).
+Singularities of different layers may be the same cluster, as long as that is valid under DMP, and every singularity obeys DMP on its own.
+
+What an agent learns that no tier held goes back into Tier 1 through the MW net's intake (chapter 14).
+
+The owner's words (2026-10-26): "Tier 1 information is the information in the MW net, which is always consulted first and then outward as
+the VIBE net dictates"; "Privacy could be seen as singularities of VIBE space where not even the MW-net can pull the information out"; the
+knowledge warehouse "would simply be the knowledge layer, that is overlayed dynamically on the VIBE field, same with the other stuff", which
+"also makes the system extensible for any other kind of information layer", for example "network layout while maintaining ultimate trust in
+the cloud, or other load balancing"; "CMOS contains all the information inside its Event Horizon"; "Each singularity should always be a
+cluster of at least 3 nodes. All singularities of the differnent layers may of course be the same, as long as it is DMP valid, but each
+singularity must still obey DMP." Evidence chain: `Dmp/R1Tier.lean` (Milky Way first, exit last, never singular, singularity invisible),
+`Dmp/R1Mass.lean` and `Dmp/R1Lens.lean` (a layer's reorganisation) in the gravity repository.
 
 Status: draft
 

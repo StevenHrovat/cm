@@ -74,7 +74,8 @@ Enforced by: none yet
 ## The data gate
 
 A feature that directly touches company data has two stages of audience: **IT and trusted advisors**, then **general testing**
-(constitution C16). It is registered in `DMP/data-features.txt` with its paths and its stage from the first commit that reaches company
+(constraint C16: widening who may use a feature on information is a loosening). In the owner's words (2026-10-25), this is good practice,
+compliant, the right thing to do, and it raises user trust and with it the chance and the speed of CMOS's adoption. It is registered in `DMP/data-features.txt` with its paths and its stage from the first commit that reaches company
 data; code that reaches company data outside a registered feature is refused. The register spans the suite: a feature that still lives in another
 repository is listed as `<repository>#<pull request>` or `<repository>:<path>`; this repository checks its stage line, and
 its pages are checked where they live until the module moves here. It moves to general testing in one pull request that changes
