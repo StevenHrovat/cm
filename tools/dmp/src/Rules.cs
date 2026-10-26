@@ -305,7 +305,7 @@ public static partial class Rules
     // ---- DMP-009 ----------------------------------------------------------------------------------------------
 
     /// <summary>SHA-256 of the normalised authority grant (whitespace collapsed, typographic quotes straightened). Changing the grant is the owner's decision, so it is a change of this constant, which `dmp` then shows in review.</summary>
-    public const string AuthorityGrantSha256 = "6eff36a82731f7ed7bdde5a8de6382f381680e92e8ceec282db31b5ad823de7a";
+    public const string AuthorityGrantSha256 = "664539096fe8b9e1bee8f8a83de84d6d4d0a78344953c4f0d33b41f282898efb";
 
     public static string NormaliseGrant(string text)
     {
