@@ -1,14 +1,19 @@
-# Bridge to the Z code agent on the build laptop
+# Bridge to the build-laptop agent (Hermes on the Z code plan)
 
 **Status: design, not built.** Nothing here runs yet. The goal: a cheap cloud session (a small model at low effort) hands a job to the
-Z code agent that runs on the personal build laptop, and reads the result back, so the Z code plan does the building and the cloud
-session only coordinates.
+agent on the personal build laptop and reads the result back, so the Z code plan does the building and the cloud session only coordinates.
+
+**Update 2026-10-26 (owner):** the agent to drive is **Hermes**, an open-source agent (MIT, Nous Research) already installed on the laptop and
+configured with the Z code plan. It has a command line, a one-shot mode and a work-queue board (`hermes kanban`), which the Z code desktop app
+lacks. Hermes's own skills on the laptop describe it; the facts below marked *Hermes skill* come from them.
 
 ## What was checked (2026-10-26)
 
 | Question | Finding | How known |
 |---|---|---|
 | Does Z code have a Telegram link? | Yes. Third-party coverage lists Telegram next to WeChat and Feishu as remote triggers. One tutorial describes: Settings, Remote Control, choose Telegram, pair with a `/connect` code shown on the desktop, manual bot-token fallback. | Third-party pages only. No official page found. **Unverified.** |
+| Does Hermes take jobs from a script? | Yes. `hermes chat -q TEXT` and `hermes -z PROMPT` run one non-interactive query; `hermes kanban create/list/show/dispatch` is a work queue with workers per card; `hermes cron`, `hermes webhook` (HMAC-signed) and a Telegram/Discord/Slack gateway exist. | *Hermes skill* (reference text on the laptop). Flags not yet run here. |
+| How does the board dispatch? | A card is claimed only when `hermes kanban dispatch` is invoked; no daemon runs unless one is set up. Cards in different workspaces (repositories) run in parallel, cards in the same workspace must be linked parent to child. A worker gets only the card body as its brief. | *Hermes skill* |
 | Can a cloud session reach `api.telegram.org`? | No. The cloud environment's network policy answers 403 to the CONNECT. | Tested. |
 | Can a cloud session reach the Z code remote page? | No, same 403 for the Z code host. | Tested. |
 | Can a Telegram bot message another bot? | As far as known the Bot API does not deliver one bot's messages to another bot, so "relay bot to Z code bot" may not work. | From memory of the Bot API. **Unverified**; one disposable test bot settles it. |
@@ -24,28 +29,36 @@ session only coordinates.
 
 ## Lanes, in the order of recommendation
 
-### Lane A: job queue in git (recommended; no new secret, no new host)
+### Lane A: git job queue feeding the Hermes board (recommended; no new secret, no new host)
 
 The cloud session pushes a job file `jobs/<id>.json` to a branch named `zbridge` of the repository the job is about. A guarded poller on the
-laptop fetches that branch on an interval, checks the job against the rules above, gives it to Z code, and pushes `results/<id>.json` (status, branch, PR link, short summary) back to the same branch. The cloud session reads the result with the normal GitHub tools.
+laptop (an owner script run by a one-shot scheduled task, which is also what ticks the Hermes dispatcher) fetches that branch, checks the job
+against the rules above, creates a Hermes card with `hermes kanban create`, dispatches it, and when the card is done pushes `results/<id>.json`
+(status, branch, PR link, short summary from `hermes kanban show <id> --json`) back to the same branch. The cloud session reads the result with the normal GitHub tools.
 
-- Job schema (all fields required): `id`, `repo` (one of the allowed three), `base` (branch), `task` (text, size-limited), `allowed_paths`, `max_subagents` (at most 4), `deliverable` (`draft-pr`), `expires`.
-- The poller accepts a job only if the commit author is the owner account, the repo and paths pass, and the job has not expired. It never executes `task` itself; it only hands it to Z code.
-- Open point: how the poller hands a job to Z code. Needs one check on the laptop: does Z code have a command line, a headless mode or a watched folder? If not, the hand-off falls to lane B or C.
+- Job schema (all fields required): `id`, `repo` (one of the allowed three), `base` (branch), `task` (size-limited text), `allowed_paths`, `max_parallel` (at most 4), `deliverable` (`draft-pr`), `expires`.
+- The poller accepts a job only if the commit author is the owner account, the repo and paths pass, and the job has not expired. It never executes `task` itself; it only puts it in a card body, the card's workspace is the Z-side clone of that repository and nothing else.
+- The card body carries the repository's rules and the verify command, because a Hermes worker has no other context.
+- Parallelism: one card per repository runs at a time unless the cards are about different repositories; the cap of four workers must be set on the dispatcher side. Open point: find the setting (`hermes kanban dispatch --help`).
+- Because the board records every run (`hermes kanban runs`, `tail`), usage per card is visible for free, which is the information the owner wants about the plan's rate limit.
 
-### Lane B: Telegram (what the owner proposed)
+### Lane A2: the cloud session as a Hermes user (later)
 
-Needs a private chat with an allowlist of exactly the owner's chat id, the bot token stored only on the laptop, and the cloud environment to allow `api.telegram.org`. Because bots may not see each other, the cloud side would be a second bot in a private group with the owner and the Z code bot. First step is therefore an experiment, not a build: pair Z code with a bot and send it a status request from the owner's phone; then, with a disposable test bot, learn whether a bot-sent message reaches it.
+`hermes mcp serve` runs Hermes as an MCP server and `hermes send` pushes a message through a gateway platform. Neither is reachable from the cloud box (no route to the laptop), so they matter only for a future local orchestrator session on the laptop.
 
-### Lane C: drive the Z code window with computer use
+### Lane B: Telegram (what the owner first proposed)
 
-A Claude session linked to the laptop types the job into the Z code window and reads the answer from the screen. Works today with only the owner's app-access approval; slow and screenshot-heavy, so not for a small model. Good for the first contact and as the stopgap for the hand-off in lane A.
+Hermes has its own Telegram gateway (`hermes gateway setup`), so no Z code pairing is needed. Needs a private chat with an allowlist of exactly the owner's chat id, the bot token stored only on the laptop, and the cloud environment to allow `api.telegram.org`. Because bots may not see each other, the cloud side would be a second bot in a private group with the owner and the Z code bot. First step is therefore an experiment, not a build: pair Hermes with a bot and send it a status request from the owner's phone; then, with a disposable test bot, learn whether a bot-sent message reaches it.
+
+### Lane C: drive an app window with computer use
+
+A Claude session linked to the laptop types the job into the agent's window and reads the answer from the screen. Works today with only the owner's app-access approval; slow and screenshot-heavy, so not for a small model. Not needed for Hermes; kept as the generic method for apps without a command line.
 
 ### Lane D: the Z code remote web page (not recommended as an integration)
 
-The remote page is an undocumented web client; its link carries a session id that is a bearer credential for the whole agent. Remote connection is off by default and the link changes every time it is switched off and on. Reverse-engineering it would be fragile. Use it by hand in a browser, not from automation.
+The remote page is an undocumented web client; its link carries a session id that is a bearer credential for the whole agent. This was the route for the Z code desktop app, which Hermes replaces. Remote connection is off by default and the link changes every time it is switched off and on. Reverse-engineering it would be fragile. Use it by hand in a browser, not from automation.
 
 ## Dependency nodes this adds
 
-See `docs/dependencies.md`: Telegram Bot API, Z code desktop app, Z.ai hosted model service, and a placeholder for a browser/app driving interface (`cm.ii` candidate, owner note 2026-10-26: "Driving other websites remotely is something CM will have to do as an MCP").
+See `docs/dependencies.md`: Hermes agent, Telegram Bot API, Z code plan and Z.ai hosted model service, and a placeholder for a browser/app driving interface (`cm.ii` candidate, owner note 2026-10-26: "Driving other websites remotely is something CM will have to do as an MCP").
 No NuGet package is added: the Telegram Bot API is plain HTTPS and `HttpClient` is enough.
