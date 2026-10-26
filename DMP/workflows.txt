@@ -1,0 +1,6 @@
+# Every GitHub workflow of this repository, registered as check or deploy (constitution C25, checked by DMP-020).
+# One line per file: "file.yml: check - reason", "file.yml: check secrets NAME, NAME - reason" or "file.yml: deploy - reason".
+# A check workflow cannot ship through GitHub (read-only token, no environment, no self-hosted runner, only the secrets listed here).
+# A deploy workflow opens with a gate job that runs tools/verify, and every other job needs it. A deploy line never becomes check.
+verify.yml: check - the required gate itself: tools/verify on every pull request and push to main
+scrub-scan.yml: check - the public-repository gate: tools/scrub-scan.sh keeps identifiers of real organisations out of the tree

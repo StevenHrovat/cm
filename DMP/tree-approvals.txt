@@ -1,0 +1,10 @@
+# Who approved each level-1 node of the composition tree (constitution C17, rule DMP-014). node<TAB>approval.
+# A new node needs the words of The Administrator and of LHC; the approval names where and when for each (a time and the project or pull request),
+# and says 'LHC pending' while no LHC has been minted yet.
+# The nodes below were set up before C17 under the first plan of the tree (DMP 0.1.0).
+cm.io	before C17: DMP 0.1.0 tree, first plan of the tree
+cm.os	before C17: DMP 0.1.0 tree, first plan of the tree
+CM.MilkyWay	before C17: DMP 0.1.0 tree, first plan of the tree
+CM.BlackHole	before C17: DMP 0.1.0 tree, first plan of the tree
+CM.Pictor	before C17: DMP 0.1.0 tree, first plan of the tree
+CM.Observatory	The Administrator, 2026-10-25 13:41Z, owner project thread ("We have cm.observatory and cm.pictor.arecibo"); LHC pending

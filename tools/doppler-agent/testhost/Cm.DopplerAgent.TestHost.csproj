@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- The test host of the agent's VM proof (lane L4b goal 3): Milky Way's gate behind its TLS transport on a TCP port, Doppler behind
+       the gate's door, and a throw-away sandbox CA, all in memory. Test only: it never runs as a service, holds no real CA and no real
+       secret, and forgets everything when it stops. Guide: tools/doppler-agent/README.md. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>cm-doppler-testhost</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../../CM.MilkyWay/src/CM.MilkyWay.csproj" />
+    <ProjectReference Include="../../../CM.BlackHole/src/CM.BlackHole.csproj" />
+  </ItemGroup>
+</Project>

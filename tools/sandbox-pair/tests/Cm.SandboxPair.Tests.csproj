@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- The composition root of the sandbox pair (Doppler and Milky Way). It is a test project outside the tree on purpose: constellations
+       never reference each other (C1, DMP-008); only this harness, like a deployment, puts the two side by side. No product code here. -->
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../../cm.os/src/cm.os.csproj" />
+    <ProjectReference Include="../../../CM.MilkyWay/src/CM.MilkyWay.csproj" />
+    <ProjectReference Include="../../../CM.BlackHole/src/CM.BlackHole.csproj" />
+  </ItemGroup>
+</Project>

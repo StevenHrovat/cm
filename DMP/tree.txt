@@ -1,0 +1,8 @@
+# The nodes of the composition tree (DMP chapter 02). One folder per line at the repository root.
+# Adding a line needs the words of The Administrator and LHC, recorded in DMP/tree-approvals.txt (constitution C17, DMP-014); rule DMP-004 refuses a folder that is not listed here.
+cm.io
+cm.os
+CM.MilkyWay
+CM.BlackHole
+CM.Pictor
+CM.Observatory

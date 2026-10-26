@@ -1,0 +1,9 @@
+# Writes outside Invoke-GuardedWrite per script under tools/ (DMP-012, constitution C15, DMP chapter 10 "Guarded writes"). path<TAB>count.
+# The numbers only go down: convert a write, then lower the line (delete it at 0); never raise a number or add a script. A new script starts at 0.
+# Baseline counted 2026-10-25 with the same list of changing commands as the operations master owner-script lint.
+tools/blackhole/issuing-ca.ps1	24
+tools/doppler-agent/install.ps1	14
+tools/doppler-agent/intune-like.ps1	6
+tools/doppler-agent/package.ps1	5
+tools/doppler-agent/test-vm.ps1	38
+tools/doppler-agent/uninstall.ps1	4

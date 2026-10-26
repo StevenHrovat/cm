@@ -1,0 +1,2 @@
+# Protocol and file-format libraries outside cm.io (DMP chapter 02, "Foundation bricks are complete", rule DMP-014). project<TAB>package<TAB>why and where it moves.
+# The list only goes down: move the use into its cm.io brick, then delete the line. A stale line fails.

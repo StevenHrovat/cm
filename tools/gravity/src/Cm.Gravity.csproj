@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Gravity's gate (CM.BlackHole/docs/gravity.md): checks the proofs of every section under CM.BlackHole/gravity with the pinned Bend 2,
+       runs the named mutants, and runs the conformance of the C2 model against ImVerifier in the sandbox world. It touches no network. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Cm.Gravity</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../../CM.MilkyWay/src/CM.MilkyWay.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Cm.Gravity.Tests" />
+  </ItemGroup>
+</Project>

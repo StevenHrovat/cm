@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- The Doppler agent as a Windows service (lane L4b goal 3): the composition of Doppler's agent loop, the Windows TPM (PcpTpm) and the
+       TLS connection to Milky Way's gate. Windows only (SupportedOSPlatform in Program.cs); it builds everywhere and is published
+       self-contained for win-x64 by tools/doppler-agent/package.ps1. The logic it runs is in CM.BlackHole/src and is tested there. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>cm-doppler-agent</AssemblyName>
+    <RootNamespace>CM.BlackHole.Agent</RootNamespace>
+    <InvariantGlobalization>true</InvariantGlobalization>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" />
+    <PackageReference Include="System.Management" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../cm.os/src/cm.os.csproj" />
+    <ProjectReference Include="../src/CM.BlackHole.csproj" />
+  </ItemGroup>
+</Project>

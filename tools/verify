@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# The one gate (DMP chapter 10): the dmp group first (so a breach is named even when the tree no longer builds), then
+# the shape of the coordinator state dumps, then build, the im group (Milky Way's verifier, DMP chapters 04 and 05), the pair
+# group (Doppler and Milky Way on the sandbox, CM.BlackHole/docs/doppler.md), then the other tests, then the gravity group (proofs, mutants and conformance of the DMP laws, CM.BlackHole/docs/gravity.md). The scripts step (guard self-test, 5.1 parse of every tools/**/*.ps1) follows dmp. Exit 0 or 1. Same steps as tools/verify.ps1.
+# Optional: CM_DMP_SCRUB_LIST = file with one forbidden value per line (supplied by the pipeline, never committed).
+set -euo pipefail
+cd "$(dirname "$0")/.."
+echo "== dmp";    dotnet build tools/dmp/src/Cm.Dmp.Check.csproj --nologo -v quiet
+dotnet run --project tools/dmp/src/Cm.Dmp.Check.csproj --no-build -- check .
+echo "== scripts"; if command -v pwsh >/dev/null 2>&1; then
+                    pwsh -NoProfile -File tools/lib/tests/Guard.Tests.ps1
+                    pwsh -NoProfile -Command "& tools/lib/tests/OwnerScripts.ParseCheck.ps1 -Files (Get-ChildItem tools, shapes -Recurse -Include *.ps1,*.psm1 | % FullName)"
+                  else echo "scripts: skipped (no PowerShell here; the Windows runner runs it with powershell.exe)"; fi
+echo "== build";  dotnet build CM.slnx --nologo -v quiet
+echo "== im";     for p in cm.os/tests/cm.os.Tests.csproj CM.MilkyWay/tests/CM.MilkyWay.Tests.csproj; do
+                    dotnet test "$p" --nologo --no-build -v quiet --logger "console;verbosity=minimal" --filter "Category=im"; done
+echo "== pair";   dotnet test tools/sandbox-pair/tests/Cm.SandboxPair.Tests.csproj --nologo --no-build -v quiet --logger "console;verbosity=minimal" --filter "Category=pair"
+echo "== test";   dotnet test CM.slnx --nologo --no-build -v quiet --logger "console;verbosity=minimal" --filter "Category!=im&Category!=pair"
+echo "== gravity"; for c in check conform; do   # CM.BlackHole/docs/gravity.md; says "skipped" where Bend or Node is missing
+                    dotnet run --project tools/gravity/src/Cm.Gravity.csproj --no-build -- "$c" .; done
+echo "verify: OK"
