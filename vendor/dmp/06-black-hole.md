@@ -42,7 +42,7 @@ Two more lines can raise a class, never lower it, and the strictest wins. **What
 enters CMOS from outside, or listens on a port reachable from outside) or makes a trust decision, holds or hands out a credential or a key,
 or runs with privilege on an enrolled machine is IIb wherever it sits; one that writes to a CMOS system or holds data that carries a class
 (C3) is at least IIn; one that reads from a system is at least II-L. **Where it is used:** a component used inside another component's
-decision takes that component's class (the trust contract `cm.os.Trust` sits inside the verifier's decision, so it is IIb).
+decision takes that component's class (the trust contract `Im.Trust` sits inside the verifier's decision, so it is IIb).
 
 **What each class requires** (each class includes every class below it):
 
@@ -74,7 +74,7 @@ and control or, at the very least, contain on its own, and that containment mech
 company's systems additionally needs the owner's declaration of advanced testing for that system (chapter 14), which names a passed
 Supernova class as its first entry criterion.
 
-**First assignments** (by distance and the two lines above). IIb: the Milky Way verifier and gate; `cm.os.Trust` (inherited); the operations master
+**First assignments** (by distance and the two lines above). IIb: the Milky Way verifier and gate; `Im.Trust` (inherited); the operations master
 server; Doppler server and agent; the issuing CA endpoint; the operations master's credential store; the Event Horizon decision layer; Sagittarius nodes
 (they serve IM requests, C19; were level 2); monitoring probes running in the operations master (attached to it; were level 1). IIn: the Pictor
 shell; owner scripts (they write). II-L: a report that only reads, two steps out. II-P: DMP, its templates and `tools/dmp`.

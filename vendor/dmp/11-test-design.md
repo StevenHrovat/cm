@@ -89,7 +89,7 @@ Status: draft
 
 ## The cold-start surface and when a run stops counting
 
-A run counts for a promotion only if the **cold-start surface** has not changed since. The surface is: `cm.os.Trust` and `cm.os.Im`, the Milky Way verifier and gate, Doppler, the CA scripts and ceremony tooling, the operations master's credential store and backup and restore jobs, the cold-start assistant and its runbooks, the bundle builder, the White Key handling and the warehouse
+A run counts for a promotion only if the **cold-start surface** has not changed since. The surface is: `Im.Trust` and `Im`, the Milky Way verifier and gate, Doppler, the CA scripts and ceremony tooling, the operations master's credential store and backup and restore jobs, the cold-start assistant and its runbooks, the bundle builder, the White Key handling and the warehouse
 lock and release code. A change to any of it invalidates the runs of the scenarios that touch the changed part (the catalogue lists which); the unchanged ones keep their result. Every run is on a named build, so a result says what it was run on. The yearly ceremony re-runs one scenario for real by rotation.
 
 A future rule (`DMP-019`, the next free number, not written) will check this from a register `DMP/cold-start.txt`: scenario, catalogue revision, tier, build, run record, result; and refuse a stable promotion whose catalogue has a scenario with no counting pass in the required tiers. Until it exists, the review of the promotion pull request is the check and C24 says `Enforced by: none yet`.

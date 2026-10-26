@@ -13,11 +13,11 @@ entrance, tested on synthetic data in the sandbox.
 
 | Part | Where | What it does |
 |---|---|---|
-| IM encoding and client side | `cm.os/src/Im` (`cm.os.Im`) | token, envelope, handshake frames and heartbeat payload; the client side of the handshake. Every constellation that speaks IM uses it |
-| Trust | `cm.os/src/Trust` (`cm.os.Trust`, lane L4) | the certificate roles, the signer interface, chain validation, the enrolment registry contract, the sandbox certificate authority |
+| IM encoding and client side | the IM repository, `src/Im` (`Im`) | token, envelope, handshake frames and heartbeat payload; the client side of the handshake. Every constellation that speaks IM uses it |
+| Trust | the IM repository, `src/Im/Trust` (`Im.Trust`) | the certificate roles, the signer interface, chain validation, the enrolment registry contract, the sandbox certificate authority |
 | Gate | `CM.MilkyWay` (`CM.MilkyWay.Gate`) | one session per connection: knock, accept, response, established, then messages |
 | Verifier | `CM.MilkyWay` (`CM.MilkyWay.Verify`) | the verify rules of chapter 04, the replay memory, the refusal log |
-| Transport | `CM.MilkyWay` (`CM.MilkyWay.Transport`), device side `cm.os.Im` (`ImTls`, `ImTlsClientConnection`, `ImStreamFraming`) | TLS 1.3 with mutual certificates, frames on a stream, admission and deadlines; no IM decision |
+| Transport | `CM.MilkyWay` (`CM.MilkyWay.Transport`), device side `Im` (`ImTls`, `ImTlsClientConnection`, `ImStreamFraming`) | TLS 1.3 with mutual certificates, frames on a stream, admission and deadlines; no IM decision |
 | Heartbeat board | `CM.MilkyWay` (`CM.MilkyWay.Board`) | the last verified heartbeat per device |
 | Simulator | `CM.MilkyWay` (`CM.MilkyWay.Simulation`) | the in-memory network that tests run on |
 | Health | `CM.MilkyWay` (`CM.MilkyWay.Health`) | the signed health report for Doppler (`IHealthSource` of `cm.os.Health`): counts and accepted token ids |
@@ -52,7 +52,7 @@ Status: draft
 
 Every stream into Milky Way, on 443 and on 138, is **TLS 1.3 with a certificate on each side** before the first IM byte. The gate shows
 its `MilkyWayGate` certificate; the device must show its `Device` certificate. Both are the same keys and certificates the two sides
-sign IM with, from the new certificate authority (`cm.os.Trust`). Rules:
+sign IM with, from the new certificate authority (`Im.Trust`). Rules:
 
 - **One version, no fallback.** TLS 1.3 only; a peer that offers anything older does not connect. No renegotiation, no session
   resumption (every connection proves its certificate again), encryption required. The cipher suites are TLS 1.3's own, all AEAD.
@@ -114,7 +114,7 @@ Status: draft
 ## The verifier
 
 One implementation, `ImVerifier`, checks every message by the rules of chapter 04 in their order and fails closed. It reads time only
-from an injected `TimeProvider`, trust only from `cm.os.Trust`, and enrolment only from Doppler's registry contract. The result of a
+from an injected `TimeProvider`, trust only from `Im.Trust`, and enrolment only from Doppler's registry contract. The result of a
 check is either a **verified message**, a type only the verifier can create, or a refusal reason. Every consumer (the heartbeat board
 first) accepts only verified messages, so an unverified message cannot reach a consumer by mistake: the compiler refuses it.
 
@@ -134,7 +134,7 @@ Status: draft
 ## The simulator
 
 The simulator connects IM clients to a gate in memory: a client sends a frame, the gate session answers, nothing touches a network
-or a real system. It ships a **sandbox world**: a sandbox certificate authority (from `cm.os.Trust`), a gate certificate, Doppler's
+or a real system. It ships a **sandbox world**: a sandbox certificate authority (from `Im.Trust`), a gate certificate, Doppler's
 token signer, an in-memory enrolment registry, and devices that can be enrolled, unenrolled, revoked, or given expired, forged or
 wrong-permission tokens. Connections come in two forms: frame-only (frames handed to a gate session in memory) and stream
 (`InMemoryDuplex`, a pair of in-memory streams that TLS and the frame transport run over exactly as over a socket). The simulated
@@ -172,13 +172,13 @@ Status: draft
 
 Milky Way and Doppler never reference each other (C1); they meet in `cm.os`:
 
-- **Doppler issues tokens** with `cm.os.Im.ImTokenCodec.Issue(claims, signer)`, where the signer is an `IImSigner` from `cm.os.Trust`
+- **Doppler issues tokens** with `Im.ImTokenCodec.Issue(claims, signer)`, where the signer is an `IImSigner` from `Im.Trust`
   holding the token signing key (certificate role `ImTokenSigner`). Doppler decides the permissions per role.
-- **Doppler answers the door**: `IImDoor` (in `cm.os.Im`) takes the payload of a door frame and returns Doppler's answer or nothing
+- **Doppler answers the door**: `IImDoor` (in `Im`) takes the payload of a door frame and returns Doppler's answer or nothing
   (chapter 04, "The enrolment door"). The gate never reads the payload.
-- **Doppler keeps the enrolment**: `IEnrolmentRegistry` (in `cm.os.Trust`) answers, for a subject, its role, its key id and whether it
+- **Doppler keeps the enrolment**: `IEnrolmentRegistry` (in `Im.Trust`) answers, for a subject, its role, its key id and whether it
   is revoked. The verifier consults it for every message (rule 9).
-- **Milky Way trusts certificates** only through `ITrustAnchors` (in `cm.os.Trust`), with the roles `ImTokenSigner` for token signers,
+- **Milky Way trusts certificates** only through `ITrustAnchors` (in `Im.Trust`), with the roles `ImTokenSigner` for token signers,
   `Device` for senders and `MilkyWayGate` for the gate.
 
 - **Milky Way names the token** of every verified message (`VerifiedMessage.TokenId`), so its health report to Doppler can list the
