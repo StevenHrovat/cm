@@ -13,7 +13,9 @@ lacks. Hermes's own skills on the laptop describe it; the facts below marked *He
 |---|---|---|
 | Does Z code have a Telegram link? | Yes. Third-party coverage lists Telegram next to WeChat and Feishu as remote triggers. One tutorial describes: Settings, Remote Control, choose Telegram, pair with a `/connect` code shown on the desktop, manual bot-token fallback. | Third-party pages only. No official page found. **Unverified.** |
 | Does Hermes take jobs from a script? | Yes. `hermes chat -q TEXT` and `hermes -z PROMPT` run one non-interactive query; `hermes kanban create/list/show/dispatch` is a work queue with workers per card; `hermes cron`, `hermes webhook` (HMAC-signed) and a Telegram/Discord/Slack gateway exist. | *Hermes skill* (reference text on the laptop). Flags not yet run here. |
-| How does the board dispatch? | A card is claimed only when `hermes kanban dispatch` is invoked; no daemon runs unless one is set up. Cards in different workspaces (repositories) run in parallel, cards in the same workspace must be linked parent to child. A worker gets only the card body as its brief. | *Hermes skill* |
+| How does the board dispatch? | Probed on the laptop (Hermes v0.22.5, one profile, model glm-5.3 on the Z.AI provider): the dispatcher runs inside the gateway (`kanban.dispatch_in_gateway` true, every 60 s), so a created card starts within about a minute without any script ticking it. Cards in different workspaces run in parallel, cards in the same workspace must be linked parent to child. A worker gets only the card body as its brief. | Probe 2026-10-26 (read-only) and *Hermes skill* |
+| How is the worker count capped? | `kanban.max_in_progress` caps running workers globally and is **unset** today; the derived default does not work on Windows, so there is no limit until it is set (`hermes config set kanban.max_in_progress 4`). | Probe, read from Hermes source; not yet tested on a running board |
+| What does `hermes kanban create` accept? | `--body-file` (or stdin), `--workspace scratch\|worktree\|dir:<path>`, `--max-runtime`, `--max-retries`, `--model`, `--provider`, `--idempotency-key`, `--completion-contract` (`local-only`, `OWNER/REPO` or a PR URL), `--goal`, `--json`. | Probe (`--help`) |
 | Can a cloud session reach `api.telegram.org`? | No. The cloud environment's network policy answers 403 to the CONNECT. | Tested. |
 | Can a cloud session reach the Z code remote page? | No, same 403 for the Z code host. | Tested. |
 | Can a Telegram bot message another bot? | As far as known the Bot API does not deliver one bot's messages to another bot, so "relay bot to Z code bot" may not work. | From memory of the Bot API. **Unverified**; one disposable test bot settles it. |
@@ -32,14 +34,15 @@ lacks. Hermes's own skills on the laptop describe it; the facts below marked *He
 ### Lane A: git job queue feeding the Hermes board (recommended; no new secret, no new host)
 
 The cloud session pushes a job file `jobs/<id>.json` to a branch named `zbridge` of the repository the job is about. A guarded poller on the
-laptop (an owner script run by a one-shot scheduled task, which is also what ticks the Hermes dispatcher) fetches that branch, checks the job
-against the rules above, creates a Hermes card with `hermes kanban create`, dispatches it, and when the card is done pushes `results/<id>.json`
+laptop (an owner script run by a one-shot scheduled task) fetches that branch, checks the job
+against the rules above, creates a Hermes card with `hermes kanban create --idempotency-key <id> --workspace dir:<clone> --body-file <job text> --max-runtime <limit> --json`
+(the gateway dispatcher then starts it; the poller does not tick it), and when the card is done pushes `results/<id>.json`
 (status, branch, PR link, short summary from `hermes kanban show <id> --json`) back to the same branch. The cloud session reads the result with the normal GitHub tools.
 
 - Job schema (all fields required): `id`, `repo` (one of the allowed three), `base` (branch), `task` (size-limited text), `allowed_paths`, `max_parallel` (at most 4), `deliverable` (`draft-pr`), `expires`.
 - The poller accepts a job only if the commit author is the owner account, the repo and paths pass, and the job has not expired. It never executes `task` itself; it only puts it in a card body, the card's workspace is the Z-side clone of that repository and nothing else.
 - The card body carries the repository's rules and the verify command, because a Hermes worker has no other context.
-- Parallelism: one card per repository runs at a time unless the cards are about different repositories; the cap of four workers must be set on the dispatcher side. Open point: find the setting (`hermes kanban dispatch --help`).
+- Parallelism: the cap of four workers is `kanban.max_in_progress`, which must be set to 4 **before** the first job, because the dispatcher is live and today nothing limits it. The idempotency key stops a re-polled job from creating a second card.
 - Because the board records every run (`hermes kanban runs`, `tail`), usage per card is visible for free, which is the information the owner wants about the plan's rate limit.
 
 ### Lane A2: the cloud session as a Hermes user (later)
