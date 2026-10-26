@@ -7,7 +7,7 @@ The chapter is reserved for test design in the outline (Supernova levels as test
 levels and GRB runs are written in [06](06-black-hole.md) for now. This first version holds the part the owner asked for on 2026-10-25: the
 criteria for a full, company-wide stable rollout. All sections are draft; the rule they explain is constitution **C24**.
 
-**Terms (the owner, 10:13Z, proposed for C17 in DM1).** CMOS has no single owner. It is governed by two bodies that check each other at every level: **The Administrator** (always capitalised, with its article; everyone allowed to fully administer CMOS, allowed both by the organisation and by CMOS) and the **Lighthole Council (LHC)**, the members bound together by the minting ritual. Where this chapter and the files it links say "the owner" for a decision, that is the person speaking today; the rules themselves are written for The Administrator and the LHC. Open: whether the LHC members are exactly the five White Key holders.
+**Terms (the owner, 10:13Z, proposed for C17 in DM1).** CMOS has no single owner. It is governed by two bodies that check each other at every level: **The Administrator** (always capitalised, with its article; everyone allowed to fully administer CMOS, allowed both by whoever holds authority over CMOS and by CMOS) and the **Lighthole Council (LHC)**, the members bound together by the minting ritual. Where this chapter and the files it links say "the owner" for a decision, that is the person speaking today; the rules themselves are written for The Administrator and the LHC. Open: whether the LHC members are exactly the five White Key holders.
 
 ## Stable rollout: the cold-start criteria (proposal)
 

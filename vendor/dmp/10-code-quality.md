@@ -85,7 +85,7 @@ Status: draft
 
 A change that affects architecture, an interface, a setup step or a decision updates the matching document in the same pull
 request. Documents are written for the next agent: explicit over clever, boring over novel, every non-obvious decision written
-down. Code, comments and docs are English first; documents for colleagues and management come in the organisation's language and in English.
+down. Code, comments and docs are English first; documents for colleagues and management come in the language of whoever holds authority over CMOS, and in English.
 
 Status: stable since DMP 0.1.0
 Owner: CM coordinator
