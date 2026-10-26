@@ -7,7 +7,8 @@ permissions:
   contents: read
 jobs:
   scan:
-    runs-on: ubuntu-latest
+    # The laptop runners; a fork's pull request stays on GitHub's own machines, so outside code never runs on the laptop.
+    runs-on: ${{ fromJSON(github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository && '"ubuntu-latest"' || '["self-hosted","linux","wsl"]') }}
     steps:
       - uses: actions/checkout@v4
       - run: tools/scrub-scan.sh
