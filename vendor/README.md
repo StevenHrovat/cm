@@ -7,8 +7,8 @@ in its source repository, then re-copy it and re-pin it.
 
 | Folder | What it is | Source |
 |---|---|---|
-| `dmp/` | DMP, the Dark Matter Protocol: the chapters the gate (`tools/dmp`) checks | [StevenHrovat/dmp](https://github.com/StevenHrovat/dmp) |
-| `im/` | IM, the Interstellar Medium: the codec, transport and trust core every constellation references | [StevenHrovat/im](https://github.com/StevenHrovat/im) |
+| `dmp/` | DMP, the Dark Matter Protocol: the chapters the gate (`tools/dmp`) checks; it carries `SETUP.md`, the one setup file of the four root repositories, and `tools/check-setup.sh`, which `tools/verify` runs after the dmp group | [StevenHrovat/dmp](https://github.com/StevenHrovat/dmp) |
+| `im/` | IM, the Interstellar Medium: the codec, transport and trust core every constellation references, and since version 1 the language of acts (`docs/language.md`, `src/Im/Language`) with its proof (`proof/`) and its own copies of DMP and Gravity | [StevenHrovat/im](https://github.com/StevenHrovat/im) |
 | `gravity/` | Gravity, the DMP prover: the Lean evidence chain `tools/gravity` conforms to | [StevenHrovat/gravity](https://github.com/StevenHrovat/gravity) |
 
 Re-pin: replace the folder with `git archive <commit>` of the source (without `.github`), then

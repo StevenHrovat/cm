@@ -6,6 +6,12 @@ $ErrorActionPreference = 'Stop'
 Set-Location (Join-Path $PSScriptRoot '..')
 function Step($name, $block) { Write-Host "== $name"; & $block; if ($LASTEXITCODE -ne 0) { Write-Host "verify: FAILED at $name"; exit 1 } }
 Step 'dmp'   { dotnet build tools/dmp/src/Cm.Dmp.Check.csproj --nologo -v quiet; if ($LASTEXITCODE -eq 0) { dotnet run --project tools/dmp/src/Cm.Dmp.Check.csproj --no-build -- check . } }
+Step 'setup' {
+    # CM needs nothing the one setup file (vendor/dmp/SETUP.md) does not list; the check is a bash script, so it runs where bash is.
+    $bash = (Get-Command bash -ErrorAction SilentlyContinue | Select-Object -First 1).Source
+    if (-not $bash) { Write-Host 'setup: skipped (no bash here; the Linux runner runs it)'; $global:LASTEXITCODE = 0; return }
+    & $bash vendor/dmp/tools/check-setup.sh . cm
+}
 Step 'scripts' {
     $exe = (Get-Command powershell.exe, pwsh -ErrorAction SilentlyContinue | Select-Object -First 1).Source
     if (-not $exe) { Write-Host 'scripts: skipped (no PowerShell found)'; $global:LASTEXITCODE = 0; return }

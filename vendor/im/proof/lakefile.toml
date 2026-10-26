@@ -1,0 +1,6 @@
+name = "im"
+version = "1.0.0"
+defaultTargets = ["Im"]
+
+[[lean_lib]]
+name = "Im"
