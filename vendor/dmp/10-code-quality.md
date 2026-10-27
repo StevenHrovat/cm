@@ -105,7 +105,10 @@ Enforced by: DMP-011
 
 ## Guarded writes
 
-How a script keeps constitution C15. Every change sits in the `-Write { }` block of `Invoke-GuardedWrite` (`tools/lib/Guard.psm1`),
+How a script keeps constraint C15 (a write lands only on a state its writer verified live). A retry reads again before each attempt. When
+the expected state is not found, nothing is written: the step fails hard when later steps depend on it, soft (skipped, reported, never a
+clean run) when none do; the tenant, host and account a write goes to are expected state too (these sentences stood in constitution C15
+until DMP 0.9.7). Every change sits in the `-Write { }` block of `Invoke-GuardedWrite` (`tools/lib/Guard.psm1`),
 with a live `-Read` of the target, an `-Expect` naming the state that may be overwritten (absent for a create), an optional `-Done` for
 "already as wanted", a `-Verify` read back, and `-DependentSteps` naming the later steps that need it (`@()` when none: then a mismatch is
 skipped and reported, and the script ends with `exit (Write-RunSummary)`, exit code 3). `-Attempts` re-reads before each try. The

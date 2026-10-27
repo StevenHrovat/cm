@@ -67,7 +67,8 @@ that says "level" reads as the class until its file is next touched:
 | 3 | IIn | the refusal suite (it is the reverse suite), the mutation run, the fuzzing, the limits and the scan; a passed level 3 is not yet a passed IIn: the next GRB run takes every reachable sandbox surface into scope, and the II-L attack through IM is added |
 | 4 | IIb | everything; the Blazar research of known weaknesses is new, so a level 4 claim is a IIb claim with that line open |
 
-**Where the class gates.** No public port opens before the component behind it has passed IIb on the sandbox (constitution C2). The
+**Where the class gates.** No public port opens before the component behind it has passed IIb on the sandbox (this chapter's rule; it
+stood in constitution C2 until DMP 0.9.7, when C2 became the constraint that every message is its own evidence). The
 recommendation of this draft, for the CM coordinator and the owner to decide: internal use over the VPN (the laptops of 1 December) needs
 IIn passed and IIb claimed and in progress. **Observatory** (2026-10-25): no part of the nightly stack runs that Observatory cannot monitor
 and control or, at the very least, contain on its own, and that containment mechanism has passed at least IIn. A write to the running

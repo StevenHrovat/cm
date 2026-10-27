@@ -47,8 +47,9 @@ Enforced by: DMP-007
 
 DMP, IM, CM and Gravity are the **root repositories**. They are text and code, never an instance of CMOS, and they are never minted: they
 stay under G0 for good, with `LHC pending` in their record. In them the **owner**, the person who holds a copy of the root repositories,
-stands for both halves (G0). Every change to the constitution or to a stable section, and every grant of authority, is an act of the owner,
-and its record is the merged pull request the owner approved.
+stands for both halves (G0). The owner can be a Duality, but does not have to be; when it is one, both halves approve every change to the
+base DMP its CMOS is derived from (G0, the owner 2026-10-26 23:32Z). Every change to the constitution or to a stable section, and every grant
+of authority, is an act of the owner, and its record is the merged pull request the owner approved.
 
 - **Grants.** The owner may grant part of this authority to other parts (an agent, a coordinator, a person) for named acts. A grant is a
   record (Axiom 3) with a bound (T1); the owner alone may withdraw it, as a tightening (T24); it is never passed on unless it says so. Rule
@@ -73,7 +74,7 @@ agents/people etc.), until a minting takes place, at which point ultimate author
 can git clone the repos to their own server, become the owner, then mint and have their own, fully contained, CMOS."
 
 Status: stable since DMP 0.9.4
-Approved: by the owner 2026-10-26 15:19Z (replaces the text stable since DMP 0.1.0).
+Approved: by the owner 2026-10-26 15:19Z (replaces the text stable since DMP 0.1.0); the owner as a Duality, the owner 2026-10-26 23:32Z.
 Owner: CM coordinator
 Enforced by: DMP-009
 
@@ -97,9 +98,9 @@ To hold a repository is to carry a byte-for-byte copy of it in a folder of its o
 version, and a sha256 over its files in ordinal path order. A copy that no longer matches its pin is refused by the gate. Nothing ever
 points back up the chain, so a clone of any root repository is whole without the network, and nothing a later repository does can change
 an earlier one. The chain is the Event Horizon guarantee for the root repositories: everything each one needs is inside its own boundary,
-and no trust crosses that boundary (the words, "contains"; Axiom 4; T37).
+and no trust crosses that boundary (the words, "contains"; Axiom 1; T37).
 
-Derived from: the words (contains, DMP-complete), Axiom 1, Axiom 4, G0 (mint prep), T37, C12, and "Who maintains it". The owner (2026-10-26): "DMP is the ultimate
+Derived from: the words (contains, DMP-complete), Axiom 1 (the gate and the balance), G0 (mint prep), T37, C12, and "Who maintains it". The owner (2026-10-26): "DMP is the ultimate
 abstraction layer between information layers and how they interact, as well as how their interaction shapes the VIBE field through
 interconnected layers of separate information types. If something can be broken down to a layer or a sublayer of other information, it
 should be done that way. Everything should be complete in itself. DMP stands singular. Gravity has the DMP version it is based on in its
