@@ -59,13 +59,13 @@ setting, and both chains state them from the same DMP sentences.
 
 | Symbol | What it is | From |
 |---|---|---|
-| `Part`, `Act`, `Door` | a component instance, an act it can perform (T28: enforcement is an act), the entry a request comes through | the words, T28 |
+| `Part`, `Act`, `Door` | a component instance, an act it can perform (T17: enforcement is an act), the entry a request comes through | the words, T17 |
 | `Witness` = {`W1`, `W2`} | the two witnesses of the dual gate | Axiom 1 |
 | `Standing p s t` | part `p` holds standing `s` at time `t`, with a validity window `[from, until)` | the words |
 | `Verdict w a t` | witness `w`'s answer on act `a`, read at `t` | Axiom 1, Axiom 2 |
 | `Evidence e t` | what a verdict read: its source, the time it was read, its window | Axiom 2 |
 | `Record r` | the entry written at an act: who, what, target, both verdicts, time | Axiom 3 |
-| `Time` | natural numbers in milliseconds on one injected clock; only order and differences are used | T4 (clock) |
+| `Time` | natural numbers in milliseconds on one injected clock; only order and differences are used | T9 (clock) |
 | `Ground` = `minted` or `pressed` | whether the two witnesses trace to two people or to one | G0, T-P |
 
 The laws, as Gravity states them (each one a law per section under "How a section gets laws"; both chains state them again):
@@ -82,7 +82,7 @@ The laws, as Gravity states them (each one a law per section under "How a sectio
   law that rests on it is unprovable there and Gravity's verdict on the instance is **out of spec** (T-P, the owner 2026-10-26 02:21Z:
   "Gravity abhors it").
 
-### What is fixed too: the field's formulas (T32)
+### What is fixed too: the field's formulas (T26)
 
 The VIBE field is defined once. Only the parameters in the next table are configuration.
 
@@ -101,17 +101,17 @@ The VIBE field is defined once. Only the parameters in the next table are config
 | Parameter | Meaning | Default | Allowed | What it may change | Tighter when |
 |---|---|---|---|---|---|
 | `ρ` refresh threshold | a standing is refreshed when its freshness falls below `ρ` | 0.33 | 0.20 to 0.50 | when a refresh is scheduled | higher (refresh sooner) |
-| `λ` window growth | a standing's window at depth `d` is `w₀ · (1 + λ)^d` (windows lengthen with depth, T32) | 0.10 | 0.00 to 0.25 | how long an outer standing lasts before it needs a witness | lower (shorter windows) |
+| `λ` window growth | a standing's window at depth `d` is `w₀ · (1 + λ)^d` (windows lengthen with depth, T26) | 0.10 | 0.00 to 0.25 | how long an outer standing lasts before it needs a witness | lower (shorter windows) |
 | `κ` evidence gradient | the evidence level a part must give is `e_min + ⌈κ · (D − d(p))⌉`, `D` the boundary's depth (nearer the pair, more evidence; chapter 06) | 0.50 | 0.25 to 1.00 | how much proof a part near the pair must show, never less than `e_min` | higher (more evidence) |
 | `μ` stability margin | the system is stable when the witnesses' verification rate is at least `(1 + μ)` times the ageing rate | 0.10 | 0.00 to 0.50 | when the "below stability" alarm fires and the edge is let go stale first | higher (alarm earlier) |
 | `θ` temperature alarm | the alarm when `Θ(t) > θ` | 0.10 | 0.05 to 0.30 | how loud the readout is | lower (alarm earlier) |
 | `w_s` shortfall weight | per declared standing kind | 1.00 | 0.10 to 1.00 | the order of refreshes among equally heavy parts | never (a reorder, both witnesses either way) |
 | `w₀`, `e_min`, skew, lifetimes | base window, minimum evidence level, clock skew, token lifetimes | per section (C2 holds skew and lifetime) | per section | as their sections say; `e_min` higher, `w₀` and lifetimes lower; skew never |
 
-Each parameter is a setting with its default and its plain description (T4: values are configuration). A value outside its interval is
+Each parameter is a setting with its default and its plain description (T9: values are configuration). A value outside its interval is
 refused at the door of the settings write. Inside its interval a move is a tightening only in the direction the last column names, and
-one witness may make it at once (T24: "a witness may tighten [...] on its own"); a move the other way is a loosening and needs both
-witnesses, exactly like widening an interval (T24: "everything that loosens needs both witnesses"). A parameter the column marks "never"
+one witness may make it at once (T16: "a witness may tighten [...] on its own"); a move the other way is a loosening and needs both
+witnesses, exactly like widening an interval (T16: "everything that loosens needs both witnesses"). A parameter the column marks "never"
 needs both witnesses in either direction. The settings write knows the direction from the old and the new value, so the door enforces it. **The defaults and
 intervals are assumptions (Annahme)**: an the knowledge warehouse search for a trust-field, freshness or refresh-threshold source found nothing that applies
 (the hits are about other kinds of freshness), so each number is a starting point to be measured on the nightly and replaced by its
@@ -129,11 +129,11 @@ make an act pass that the laws refuse.
 **N1c (the demands never change the laws).** `κ` and `e_min` set the evidence a part must give, and `λ` sets the window of standings not
 yet issued; moving any of them inside its interval changes which acts have enough evidence, never what counts as evidence (K2) or that
 both witnesses must pass (K1). The direction matters for who may move them, not for the laws: raising `κ` or `e_min`, or lowering `λ`, is
-a tightening one witness may make; the opposite move lowers what a part must show and is a loosening under both witnesses (T24, the
+a tightening one witness may make; the opposite move lowers what a part must show and is a loosening under both witnesses (T16, the
 table's last column). N1c is therefore not a claim that every move tightens; it is the claim that no move, in either direction, lets an
 act pass that K1 or K2 refuses.
 
-Together these are T32's "the weight never votes" (T23) as theorems, and they are what lets the owner "only adjust very small decimal
+Together these are T26's "the weight never votes" (T20) as theorems, and they are what lets the owner "only adjust very small decimal
 values": a tuning changes how fast and in which order the system restores itself, how much proof the parts near the pair show, and how
 loudly it reports; it never changes the laws an act must keep.
 
@@ -156,7 +156,7 @@ in both chains: Gravity from the DMP sentences down, Lean from the C# up.
 ### The shared root and how it is broken
 
 BendTT's kernel is proven in Lean, so a fault in Lean's kernel could make both chains accept the same wrong thing. That is a shared cause
-(T29), and it is declared here rather than hidden. Three measures break it:
+(T18), and it is declared here rather than hidden. Three measures break it:
 
 1. **An independent kernel re-checks the evidence chain.** Every Lean proof is exported (`lean4export`) and checked again by a kernel
    written separately in another language (nanoda, in Rust; the knowledge warehouse idea I-0245). Lean's own kernel and nanoda must both accept it.
@@ -182,7 +182,7 @@ and a proof about the source holds for the generated code up to the generator (t
 against the source on every build, so the generator itself does not have to be trusted blindly).
 
 **What it must not break.** If the C# were generated from the intent model, the evidence chain would read a translation of the intent
-model and prove it again: one source, two engines, one cause (T29), and C22's independence would be gone. So the source cannot be either
+model and prove it again: one source, two engines, one cause (T18), and C22's independence would be gone. So the source cannot be either
 chain's model.
 
 **Recommendation: yes, for the surface, from DMP's own tables, never for the decision logic.**
@@ -364,9 +364,9 @@ Every `dmp` rule declares the kind of evidence it gives, and the runner prints e
 
 | Section | Reach (strongest first) | Today |
 |---|---|---|
-| C1 One door | checked (references, egress inventory), proved (T1 once the shield exists), measured | DMP-008 |
+| C1 One door | checked (references, egress inventory), proved (T6 once the shield exists), measured | DMP-008 |
 | C2 Every message verifies itself | proved (I1, rule order, I2), model-checked (I5, handshake), tested (conformance, parsers) | DMP-018 (laws locked; the proofs run in the gravity group) |
-| C3 Every value carries its class | proved (part 10 T1 to T6, after MW0), tested, measured (labels right) | none yet |
+| C3 Every value carries its class | proved (part 10 T6 to T11, after MW0), tested, measured (labels right) | none yet |
 | C4 Contracts change at promotions | checked (register hash on the history), model-checked (promotion protocol) | none yet |
 | C5 Financial data freezes | proved (write gate), checked (released hash), measured | none yet |
 | C6 Gates and grant | proved (write gate W1, W2), checked (DMP-009, DMP-012), measured, reviewed | DMP-009 |

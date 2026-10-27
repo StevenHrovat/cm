@@ -72,7 +72,7 @@ recorded as such in the tests, not as findings. All TLS ran over the in-memory p
 (`ITrustAnchors`, role MilkyWayGate) runs after the TLS handshake has completed at the record layer, as .NET's `SslStream` validates the
 remote certificate in managed code once the handshake is done. A party that terminates TLS with any certificate, even a self-signed one,
 therefore completes the handshake, holds the device's certificate (opaque subject, key id, the new authority's name) and only then is
-refused (`T26`). Nothing of IM leaves the device (no knock, no token), the certificate is public data by design and the subject is opaque
+refused (`T22`). Nothing of IM leaves the device (no knock, no token), the certificate is public data by design and the subject is opaque
 (C3), so the exposure is a fingerprint of "a CMOS device of this authority with this key id" to whoever can stand in the path. The gate side
 has the same shape (`T03`: the gate completes TLS with an untrusted client certificate, then refuses before any IM byte is read), with no
 further exposure. Recommendation: say so in DMP 05 under "Transport encryption" (the role check replaces the name check and happens after
@@ -109,7 +109,7 @@ secret stays "a gate, not an identity", so rotation after misuse is the answer, 
 - **O7** The resource counters of the transport (`Active`, `Uncertified`) move on the gate's side of TLS, after the device sees its handshake
   complete; a test (or a listener's metric) that reads them right after the client's handshake sees the previous value. Not a security
   matter; recorded because part 2 hit it twice before waiting on an answered knock.
-- **O8** The branch's DMP 04 says the quiet answer "still holds inside TLS"; it does, for every frame tried (`T19`), and the TLS alert on a
+- **O8** The branch's DMP 04 says the quiet answer "still holds inside TLS"; it does, for every frame tried (`T12`), and the TLS alert on a
   refused certificate is the one byte sequence a scanner now gets back (as the DMP already says).
 
 ## Stop conditions
