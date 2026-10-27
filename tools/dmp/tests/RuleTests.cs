@@ -581,7 +581,14 @@ public sealed class RuleTests : IDisposable
     [Fact]
     public void Draft_section_in_the_constitution_is_refused()
     {
-        Edit("vendor/dmp/01-constitution.md", t => t.Replace("Status: stable since DMP 0.1.0", "Status: draft"));
+        // Every stable section of the constitution becomes a draft, whichever version it became stable in: a re-pin restamps
+        // sections (DMP 0.9.7 restamped the axioms and the constraints), so the test names no version.
+        Edit("vendor/dmp/01-constitution.md", t =>
+        {
+            var drafted = System.Text.RegularExpressions.Regex.Replace(t, @"Status: stable since DMP [0-9.]+", "Status: draft");
+            Assert.NotEqual(t, drafted);
+            return drafted;
+        });
         Assert.NotEmpty(Run("DMP-007"));
     }
 
