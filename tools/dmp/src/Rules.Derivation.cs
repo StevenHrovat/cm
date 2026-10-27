@@ -15,11 +15,11 @@ public static partial class Rules
     [GeneratedRegex(@"^Derived from: (.+(?:\r?\n(?!\s*\r?\n).+)*)", RegexOptions.Multiline)]
     private static partial Regex DerivedFromLine();
 
-    // A citation: "Axiom 1", "G0", "T3", "T3a", "T24b", "T-P", "C17", or "the words".
+    // A citation: "Axiom 1", "G0", "T8", "T8a", "T16b", "T-P", "C17", or "the words".
     [GeneratedRegex(@"\bAxiom \d+\b|\bG0\b|\bT-P\b|\bT\d+[a-d]?\b|\bC\d+\b|\bthe words\b")]
     private static partial Regex Citation();
 
-    // The label a heading defines: "Axiom 2 · Evidence" -> "Axiom 2"; "T24b · Lockstep" -> "T24b"; "The words" -> "the words".
+    // The label a heading defines: "Axiom 2 · Evidence" -> "Axiom 2"; "T16b · Lockstep" -> "T16b"; "The words" -> "the words".
     static string? LabelOf(string title)
     {
         if (title == "The words") return "the words";
